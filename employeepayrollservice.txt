@@ -249,3 +249,89 @@ mysql> SELECT MIN(salary) FROM employee_payroll where gender = 'M' GROUP BY gend
 |     1000000 |
 +-------------+
 1 row in set (0.03 sec)
+
+                    //UC8
+mysql> alter table employee_payroll add Address varchar(10) after phone_number;
+Query OK, 0 rows affected (1.79 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee_payroll add Department varchar(10) after address;
+Query OK, 0 rows affected (1.82 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe employee_payroll;
++--------------+--------------+------+-----+---------+----------------+
+| Field        | Type         | Null | Key | Default | Extra          |
++--------------+--------------+------+-----+---------+----------------+
+| id           | int unsigned | NO   | PRI | NULL    | auto_increment |
+| name         | varchar(150) | NO   |     | NULL    |                |
+| Phone_Number | varchar(10)  | YES  |     | NULL    |                |
+| Address      | varchar(10)  | YES  |     | NULL    |                |
+| Department   | varchar(10)  | YES  |     | NULL    |                |
+| gender       | char(1)      | YES  |     | NULL    |                |
+| salary       | double       | NO   |     | NULL    |                |
+| start        | date         | NO   |     | NULL    |                |
++--------------+--------------+------+-----+---------+----------------+
+8 rows in set (0.09 sec)
+
+               //UC9
+
+mysql> alter table employee_payroll rename column department to Department;
+Query OK, 0 rows affected (0.26 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee_payroll rename column salary to BasicPay;
+Query OK, 0 rows affected (0.42 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee_payroll add Deduction float after basicpay;
+Query OK, 0 rows affected (1.82 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee_payroll add TaxablePay float after deduction;
+Query OK, 0 rows affected (2.90 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee_payroll add Tax float after TaxablePay;
+Query OK, 0 rows affected (1.86 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee_payroll add NetPay float after Tax;
+Query OK, 0 rows affected (2.19 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee_payroll;
++----+---------+--------------+---------+------------+--------+----------+-----------+------------+------+--------+------------+
+| id | name    | Phone_Number | Address | Department | gender | BasicPay | Deduction | TaxablePay | Tax  | NetPay | start      |
++----+---------+--------------+---------+------------+--------+----------+-----------+------------+------+--------+------------+
+|  1 | Bill    | NULL         | NULL    | NULL       | M      |  1000000 |      NULL |       NULL | NULL |   NULL | 2018-01-03 |
+|  2 | Terisa  | NULL         | NULL    | NULL       | F      |  3000000 |      NULL |       NULL | NULL |   NULL | 2019-11-13 |
+|  3 | Charlie | NULL         | NULL    | NULL       | M      |  3000000 |      NULL |       NULL | NULL |   NULL | 2020-05-21 |
++----+---------+--------------+---------+------------+--------+----------+-----------+------------+------+--------+------------+
+3 rows in set (0.00 sec)
+
+mysql> update employee_payroll set Phone_Number = '8924567246', Department = 'entc' , Address = 'solapur' where id = '1';
+Query OK, 1 row affected (0.09 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee_payroll set Phone_Number = '9924567246', Department = 'cse' , Address = 'pune',BasicPay = '2000000' where id = '2';
+Query OK, 1 row affected (0.12 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee_payroll set Phone_Number = '8467567246', Department = 'eee' , Address = 'bhavanipet' where id = '3';
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee_payroll;
++----+---------+--------------+------------+------------+--------+----------+-----------+------------+------+--------+------------+
+| id | name    | Phone_Number | Address    | Department | gender | BasicPay | Deduction | TaxablePay | Tax  | NetPay | start      |
++----+---------+--------------+------------+------------+--------+----------+-----------+------------+------+--------+------------+
+|  1 | Bill    | 8924567246   | solapur    | entc       | M      |  1000000 |      NULL |       NULL | NULL |   NULL | 2018-01-03 |
+|  2 | Terisa  | 9924567246   | pune       | cse        | F      |  2000000 |      NULL |       NULL | NULL |   NULL | 2019-11-13 |
+|  3 | Charlie | 8467567246   | bhavanipet | eee        | M      |  3000000 |      NULL |       NULL | NULL |   NULL | 2020-05-21 |
++----+---------+--------------+------------+------------+--------+----------+-----------+------------+------+--------+------------+
+3 rows in set (0.04 sec)
+
+
+           //UC10
+
